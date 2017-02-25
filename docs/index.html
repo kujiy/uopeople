@@ -1,0 +1,101 @@
+
+  <!DOCTYPE html>
+  <html>
+    <head>
+      <!--Import Google Icon Font-->
+      <link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+      <!--Import jQuery before materialize.js-->
+      <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+	
+	  <!-- Compiled and minified CSS -->
+	  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.0/css/materialize.min.css">
+	
+	  <!-- Compiled and minified JavaScript -->
+	  <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.0/js/materialize.min.js"></script>
+	          
+	          
+	
+
+      <!--Let browser know website is optimized for mobile-->
+      <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+<style>
+#OutputHref {
+ 	font-size: x-large;
+ }
+ </style>
+
+    </head>
+
+    <body>
+
+		
+  <div class="section no-pad-bot" id="index-banner">
+    <div class="container">
+		                  
+		<h2># UoPeople</h2>
+		
+		<h5>
+		
+		Convenient Tools for Students of University of the People
+		</h5>
+		<br />
+
+		I thought it's convenient if I can shrink all posts in the Discussion Forums.<br />
+		
+		<br />
+		
+		So I made a bookmarklet to shrink all posts in the discussion forum.
+		<br />
+		<br />
+		
+		
+		<h4>
+		# How to use
+		</h4>
+		<br />
+		<ol>
+		
+		<li> Drag this -> <b><a id="OutputHref" ng-attr-href="{{ output }}" href="javascript:function expand_this_post(t){$(t).parent().parent().find(&quot;.row.maincontent, .row.side&quot;).each(function(){$(this).show()}),$(t).parent().parent().find(&quot;.post_abbr&quot;).each(function(){$(this).hide()})}$(&quot;.row.maincontent, .row.side&quot;).each(function(){$(this).hide()}),$(&quot;.forumpost&quot;).each(function(){post='<div class=&quot;post_abbr&quot;>'+$(this).find(&quot;.row.maincontent&quot;).text().slice(0,70)+&quot;...&quot;,post+='<a onclick=&quot;expand_this_post(this);&quot;>Expand</a></div>',out=$(this).html()+post,$(this).html(out)});">Shrink!</a>
+		</b>
+		  <- link into the bookmark bar of your browser.
+		
+		<br />
+		<br />
+		
+		<li>Open any discussion forum in moodle
+		<br />
+		<br />
+		
+		<li>Click the bookmarklet that you dragged into your bookmark bar 
+		<br />
+		<br />
+		
+		<li>If all of the posts are shrunk in short boxes, it means working correctly.
+		<br /><br />
+
+		<li> Example:<br />
+<br />
+
+		<img src="db.png">
+		<br />
+		
+		</ol>
+		
+    </div>
+  </div>
+		
+		
+		
+
+  <a href="https://github.com/kujiy/uopeople"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://camo.githubusercontent.com/365986a132ccd6a44c23a9169022c0b5c890c387/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f7265645f6161303030302e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_red_aa0000.png"></a>
+  
+  
+  
+
+
+    </body>
+  </html>
+  
+  
