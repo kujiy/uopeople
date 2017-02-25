@@ -4,14 +4,14 @@ Convenient Tools for Students of University of the People
 # What's this?
 I thought it's convenient if I can shrink all posts in the Discussion Forums of University of the People Moodle.
 
-
+![](https://kujiy.github.io/uopeople/docs/db.png)
 
 So I made a bookmarklet to shrink all posts in the discussion forum.
 
 
 # How to use
 
-1. Open this page
+1. [Open this page](https://kujiy.github.io/uopeople/docs/)
 
 2. Drag the **Shrink!** link into the bookmark bar of your browser.
 
