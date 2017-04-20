@@ -47,13 +47,24 @@ function expand_this_post(o) {
 		}
 	);
 }
+// Shrink the post
 $(".row.maincontent, .row.side").each(function(){$(this).hide()});
+// Add the expand link
 $(".forumpost").each(function(){ 
 	post = '<div class="post_abbr">' + $(this).find(".row.maincontent").text().slice(0, 70) + '...';
 	post += '<a onclick="expand_this_post(this);">Expand</a></div>' ; 
 	 out =  $(this).html() + post ;
 	 $(this).html(out);
  });
+// Colorize the second posts
+$(".firstpost ~ div > div.forumpost").each(function(){$(this).css('box-shadow', '-20px 0 0 #76AFB5')});
+// Numbering posts
+// TODO: make recursively
+$(".firstpost ~ div ").each(function(i){
+    $(this).find(".forumpost").each(function(j) {
+              $(this).prepend( "<span class='breadcrumb' style='float: left;margin-left: -35px;'>" + (i + 1) + '-' + (j + 1) + '. </span>');
+    });
+});
 ```
 
 
