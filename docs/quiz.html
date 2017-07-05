@@ -53,8 +53,8 @@
 		<ol>
 
 		<li> Drag this -> <b>
-			
-			<a id="codeOut" href="javascript:(function(){$(&quot;.answer label, .qtext&quot;).each(function(){$(this).html($(this).html().replace(&quot;NOT&quot;,'<b class=&quot;incorrect&quot; style=&quot;font-size:large&quot;>NOT</b>'));$(this).html($(this).html().replace(&quot;not&quot;,'<b class=&quot;incorrect&quot; style=&quot;font-size:large&quot;>not</b>'));$(this).html($(this).html().replace(&quot;hardly&quot;,'<b class=&quot;incorrect&quot; style=&quot;font-size:large&quot;>hardly</b>'));$(this).html($(this).html().replace(&quot;rarely&quot;,'<b class=&quot;incorrect&quot; style=&quot;font-size:large&quot;>rarely</b>'));})})();">Emphasise!</a>
+			<a id="codeOut" href="javascript:(function(){$(&quot;.answer label, .qtext&quot;).each(function(){$(this).html($(this).html().replace(/nog/ig,'<b class=&quot;incorrect&quot; style=&quot;font-size:large&quot;>NOT</b>'));$(this).html($(this).html().replace(&quot;hardly&quot;,'<b class=&quot;incorrect&quot; style=&quot;font-size:large&quot;>hardly</b>'));$(this).html($(this).html().replace(&quot;rarely&quot;,'<b class=&quot;incorrect&quot; style=&quot;font-size:large&quot;>rarely</b>'));})})();">
+				Emphasise!</a>
 		</b>
     
 		  <- link into the bookmark bar of your browser.
@@ -63,8 +63,7 @@
 			http://ted.mielczarek.org/code/mozilla/bookmarklet.html
 			
     $(".answer label, .qtext").each(function() {
-        $(this).html($(this).html().replace("NOT", '<b class="incorrect" style="font-size:large">NOT</b>'));
-        $(this).html($(this).html().replace("not", '<b class="incorrect" style="font-size:large">not</b>'));
+        $(this).html($(this).html().replace(/nog/ig, '<b class="incorrect" style="font-size:large">NOT</b>'));
         $(this).html($(this).html().replace("hardly", '<b class="incorrect" style="font-size:large">hardly</b>'));
         $(this).html($(this).html().replace("rarely", '<b class="incorrect" style="font-size:large">rarely</b>'));
     })
@@ -73,7 +72,7 @@
 <br />
 <br />
 
-		<img src="quizemphasise.jpg" >
+		<img src="quizemphasise.png" >
 
 		<br />
 		<br />
