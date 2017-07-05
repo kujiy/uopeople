@@ -54,12 +54,21 @@
 
 		<li> Drag this -> <b>
 			
-			<a href="javascript:(function(){$(&quot;.qtext&quot;).each(function(){$(this).html($(this).html().replace(&quot;not&quot;,'<b class=&quot;incorrect&quot;style=&quot;font-size:large&quot;>not</b>'));$(this).html($(this).html().replace(&quot;hardly&quot;,'<b class=&quot;incorrect&quot;style=&quot;font-size:large&quot;>hardly</b>'));$(this).html($(this).html().replace(&quot;rarely&quot;,'<b class=&quot;incorrect&quot;style=&quot;font-size:large&quot;>rarely</b>'));});})()" id="bmlink">
-			Emphasise!</a>
+			<a class="bookmarklet" href="javascript:(function()%7B%24(%22.answer%20label%2C%20.qtext%22).each(function()%20%7B%24(this).html(%24(this).html().replace(%22not%22%2C%20'%3Cb%20class%3D%22incorrect%22%20style%3D%22font-size%3Alarge%22%3Enot%3C%2Fb%3E'))%3B%24(this).html(%24(this).html().replace(%22hardly%22%2C%20'%3Cb%20class%3D%22incorrect%22%20style%3D%22font-size%3Alarge%22%3Ehardly%3C%2Fb%3E'))%3B%24(this).html(%24(this).html().replace(%22rarely%22%2C%20'%3Cb%20class%3D%22incorrect%22%20style%3D%22font-size%3Alarge%22%3Erarely%3C%2Fb%3E'))%3B%7D)%7D)()">
+				Emphasise!</a>
 		</b>
     
 		  <- link into the bookmark bar of your browser.
 
+		     <!--
+			
+    $(".answer label, .qtext").each(function() {
+        $(this).html($(this).html().replace("not", '<b class="incorrect" style="font-size:large">not</b>'));
+        $(this).html($(this).html().replace("hardly", '<b class="incorrect" style="font-size:large">hardly</b>'));
+        $(this).html($(this).html().replace("rarely", '<b class="incorrect" style="font-size:large">rarely</b>'));
+    })
+			-->
+			
 <br />
 <br />
 
