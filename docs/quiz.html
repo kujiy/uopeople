@@ -53,8 +53,9 @@
 		<ol>
 
 		<li> Drag this -> <b>
-			<a id="codeOut" href="javascript:(function(){$(&quot;.answer label, .qtext&quot;).each(function(){$(this).html($(this).html().replace(/nog/ig,'<b class=&quot;incorrect&quot; style=&quot;font-size:large&quot;>NOT</b>'));$(this).html($(this).html().replace(&quot;hardly&quot;,'<b class=&quot;incorrect&quot; style=&quot;font-size:large&quot;>hardly</b>'));$(this).html($(this).html().replace(&quot;rarely&quot;,'<b class=&quot;incorrect&quot; style=&quot;font-size:large&quot;>rarely</b>'));})})();">
-				Emphasise!</a>
+		
+			<a id="codeOut" href="javascript:(function(){$(&quot;.answer label, .qtext&quot;).each(function(){var rep={not:&quot;NOT&quot;,hardly:&quot;hardly&quot;,rarely:&quot;rarely&quot;,&quot;all but&quot;:&quot;all but&quot;};var d=$(this);$.each(rep,function(key,value){console.log(&quot;key=&quot;+key);console.log(&quot;value=&quot;+value);var re=new RegExp(key,&quot;g&quot;);$(d).html($(d).html().replace(re,'<b class=&quot;incorrect&quot; style=&quot;font-size:large&quot;>'+value+'</b>'));});});})();">Emphasise</a>
+			
 		</b>
     
 		  <- link into the bookmark bar of your browser.
@@ -62,11 +63,19 @@
 		     <!--
 			http://ted.mielczarek.org/code/mozilla/bookmarklet.html
 			
-    $(".answer label, .qtext").each(function() {
-        $(this).html($(this).html().replace(/nog/ig, '<b class="incorrect" style="font-size:large">NOT</b>'));
-        $(this).html($(this).html().replace("hardly", '<b class="incorrect" style="font-size:large">hardly</b>'));
-        $(this).html($(this).html().replace("rarely", '<b class="incorrect" style="font-size:large">rarely</b>'));
-    })
+
+
+$(".answer label, .qtext").each(function() {
+     var rep = { not: "NOT", hardly: "hardly", rarely: "rarely", "all but": "all but" };
+     var d = $(this);
+		$.each(rep, function (key, value) {
+              console.log("key=" + key);
+		        console.log("value=" + value);
+	           var re = new RegExp(key, "g");
+		        $(d).html($(d).html().replace(re, '<b class="incorrect" style="font-size:large">' + value + '</b>'));
+		});
+});    
+    
 			-->
 			
 <br />
