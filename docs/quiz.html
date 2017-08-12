@@ -53,7 +53,8 @@
 		<ol>
 
 		<li> Drag this -> <b>
-		<a id="codeOut" href="javascript:(function(){$(&quot;.answer label, .qtext&quot;).each(function(){var rep={not:&quot;NOT&quot;,hardly:&quot;hardly&quot;,rarely:&quot;rarely&quot;,&quot;all but&quot;:&quot;all but&quot;,incorrect:&quot;incorrect&quot;};var d=$(this);$.each(rep,function(key,value){console.log(&quot;key=&quot;+key);console.log(&quot;value=&quot;+value);var re=new RegExp(key,&quot;g&quot;);$(d).html($(d).html().replace(re,'<b class=&quot;incorrect&quot; style=&quot;font-size:large&quot;>'+value+'</b>'));});});})();">Emphasise</a>
+
+<a id="codeOut" href="javascript:(function(){$(&quot;.answer label, .qtext&quot;).each(function(){var rep={not:&quot;NOT&quot;,hardly:&quot;hardly&quot;,rarely:&quot;rarely&quot;,&quot;all but&quot;:&quot;all but&quot;,&quot;incorrect &quot;:&quot;incorrect &quot;,&quot; incorrect&quot;:&quot; incorrect&quot;};var d=$(this);$.each(rep,function(key,value){console.log(&quot;key=&quot;+key);console.log(&quot;value=&quot;+value);var re=new RegExp(key,&quot;gi&quot;);$(d).html($(d).html().replace(re,'<b class=&quot;incorrect&quot; style=&quot;font-size:large&quot;>'+value. toUpperCase()+'</b>'));});});})();">Emphasise</a>
 			
 		</b>
     
@@ -65,13 +66,14 @@
 
 
 $(".answer label, .qtext").each(function() {
-     var rep = { not: "NOT", hardly: "hardly", rarely: "rarely", "all but": "all but", incorrect:"incorrect" };
+     /* "incorrect" is the same to the class name so check it with previous/later spaces */
+     var rep = { not: "NOT", hardly: "hardly", rarely: "rarely", "all but": "all but", "incorrect ":"incorrect ", " incorrect":" incorrect" };
      var d = $(this);
 		$.each(rep, function (key, value) {
               console.log("key=" + key);
 		        console.log("value=" + value);
-	           var re = new RegExp(key, "g");
-		        $(d).html($(d).html().replace(re, '<b class="incorrect" style="font-size:large">' + value + '</b>'));
+	           var re = new RegExp(key, "gi");
+		        $(d).html($(d).html().replace(re, '<b class="incorrect" style="font-size:large">' + value. toUpperCase() + '</b>'));
 		});
 });    
     
