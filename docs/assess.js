@@ -17,6 +17,10 @@ $("fieldset").each(function(e){
     });
 });
 
+var message ="Good job!";
+$("#id_feedbackauthor_editoreditable").text(message);
+$("#id_feedbackauthor_editor").val(message);
+
 function replace_past_tense(s, textarea) {
     // "This student refer" の "refer" を取得
     var verb = get_word(s,3);
