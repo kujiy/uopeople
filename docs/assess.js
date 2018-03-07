@@ -17,7 +17,7 @@ $("fieldset").each(function(e){
     });
 });
 
-var message ="Good job!";
+var message ="This student provided a great work on this difficult subject. The essay was well-written and easy to read. The explanations deepened my understandings. Thank you for your work. Good job!";
 $("#id_feedbackauthor_editoreditable").text(message);
 $("#id_feedbackauthor_editor").val(message);
 
