@@ -1,10 +1,18 @@
-$("select[id^=id_grade]").each(function(e) { $(this).val(10);});
+$("select[id^=id_grade], select[id^=id_grade__idx_]").each(function(e) {
+         var point = $(this).find("option").eq(1).val();
+         $(this).val(point);
+});
 
 $("fieldset").each(function(e){ 
     $this = $(this);
     var textarea = $this.find("textarea");
 
-    $this.find("div[id^=id_dim_] p").each(function(e){ 
+    // 説明文
+    explanation = $this.find("div[id^=id_dim_] p");
+    if ( ! explanation.length ) {
+        explanation = $this.find("div[id^=id_dim_]");
+    }
+    $.each(explanation, function(e){ 
         var id = $(this).attr('id');
         
         // console.log("textarea="+textarea);
