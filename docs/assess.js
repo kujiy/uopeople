@@ -8,6 +8,8 @@ $("fieldset").each(function(e){
     var textarea = $this.find("textarea");
 
     // 説明文
+    // 邪魔な説明文内の太字を先に消しておく
+    $this.find("div[id^=id_dim_] b").remove();
     explanation = $this.find("div[id^=id_dim_] p");
     if ( ! explanation.length ) {
         explanation = $this.find("div[id^=id_dim_]");
@@ -17,9 +19,12 @@ $("fieldset").each(function(e){
         
         // console.log("textarea="+textarea);
         var t = $(this).text();
+        // いらない文言を消す
         t = t.replace(/[\r\n]+/g, '');
         t = t.replace(/and\/or/g, 'and');
+        t = t.replace(/Grading Guidelines/g, '');
         var ptn1 = new RegExp(/^.*?Requirements\z?/);
+        // 動詞置き換え準備
         var ptn2 = new RegExp(/\s?(Did |Is |Are |Does )the /);
         var s = t.replace(ptn1, "").replace(ptn2, "This ").replace("essay at least", "essay is at least");
         var s = replace_past_tense(s, textarea);
