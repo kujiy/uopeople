@@ -17,7 +17,9 @@ $("fieldset").each(function(e){
         
         // console.log("textarea="+textarea);
         var t = $(this).text();
-        var ptn1 = new RegExp(/^.*?Requirements /);
+        t = t.replace(/[\r\n]+/g, '');
+        t = t.replace(/and\/or/g, 'and');
+        var ptn1 = new RegExp(/^.*?Requirements\z?/);
         var ptn2 = new RegExp(/\s?(Did |Is |Are |Does )the /);
         var s = t.replace(ptn1, "").replace(ptn2, "This ").replace("essay at least", "essay is at least");
         var s = replace_past_tense(s, textarea);
