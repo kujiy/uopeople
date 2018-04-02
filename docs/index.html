@@ -124,6 +124,10 @@ window.open("https://kujiy.000webhostapp.com/uop/apa.php?url=" + encodeURICompon
 	            <li> Copy the auto-generated apa citation and use
 	            <li> Fix the author or date if it is wrong
 	    </ol>
+	    <hr>
+	    <H5> Sort elements by name</h5>
+	    Use at the top page of each class.<br>
+	    <a id="codeOut" href="javascript:(function(){FIND=[&quot;Discussion Forum&quot;,&quot;Learning Journal&quot;,&quot;Written Assignment&quot;,&quot;Self Quiz&quot;,&quot;Graded Quiz&quot;,&quot;Final Exam&quot;];OUT=&quot;&quot;;$.each(FIND,function(key,find){OUT=OUT+get(find);});document.write(OUT);function get(FIND){RES=&quot;<h3>&quot;+FIND+&quot;</h3>&quot;;$(&quot;a&quot;).each(function(){str=$(this).text();if(str.match(FIND)){console.log(str);text=$(this).text();url=$(this).attr(&quot;href&quot;);RES=RES+&quot;<a href='&quot;+url+&quot;'>&quot;+text+&quot;</a><br><br>&quot;;}});return RES;}})();">sort</a>
     </div>
   </div>
 	    
