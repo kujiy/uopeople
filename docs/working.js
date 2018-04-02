@@ -60,3 +60,17 @@ $("a").each(function(){
     }
  });
  document.write(RES);
+
+
+// show all quizzes links (works)
+FIND="Quiz";
+RES="";
+$("a").each(function(){   
+    str = $(this).text();
+    if (str.match(FIND)) {
+        console.log(str);    
+        link = $(this).attr("href");
+         RES=RES+"<a href='"+link+"'>"+link+"</a><br><br>";
+    }
+ });
+ document.write(RES);
