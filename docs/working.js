@@ -31,3 +31,32 @@ $("a").each(function(){
  document.write(RES);
 
 
+
+// show all lj links (works)
+FIND="Learning Journal";
+RES="";
+$("a").each(function(){   
+    str = $(this).text();
+    if (str.match(FIND)) {
+        console.log(str);    
+        link = $(this).attr("href");
+         RES=RES+"<a href='"+link+"'>"+link+"</a><br><br>";
+    }
+ });
+ document.write(RES);
+
+
+
+
+// show wa links (works)
+FIND="Written Assignment";
+RES="";
+$("a").each(function(){   
+    str = $(this).text();
+    if (str.match(FIND)) {
+        console.log(str);    
+        link = $(this).attr("href");
+         RES=RES+"<a href='"+link+"'>"+link+"</a><br><br>";
+    }
+ });
+ document.write(RES);
