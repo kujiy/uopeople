@@ -17,9 +17,16 @@ $("a").each(function(){
     i = i + 1;
  });
  
-// show all db links (works)
-FIND="Discussion Forum";
-RES="";
+// show all links (works)
+FIND = [ "Discussion Forum", "Learning Journal", "Written Assignment", "Self Quiz", "Graded Quiz", "Final Exam" ];
+OUT="";
+$.each(FIND, function(key, find) {
+       OUT= OUT + get(find);   
+});
+document.write(OUT);
+      
+function get(FIND) {
+RES="<h3>"+FIND+"</h3>";
 $("a").each(function(){   
     str = $(this).text();
     if (str.match(FIND)) {
@@ -28,49 +35,6 @@ $("a").each(function(){
          RES=RES+"<a href='"+link+"'>"+link+"</a><br><br>";
     }
  });
- document.write(RES);
+ return RES;
+}
 
-
-
-// show all lj links (works)
-FIND="Learning Journal";
-RES="";
-$("a").each(function(){   
-    str = $(this).text();
-    if (str.match(FIND)) {
-        console.log(str);    
-        link = $(this).attr("href");
-         RES=RES+"<a href='"+link+"'>"+link+"</a><br><br>";
-    }
- });
- document.write(RES);
-
-
-
-
-// show wa links (works)
-FIND="Written Assignment";
-RES="";
-$("a").each(function(){   
-    str = $(this).text();
-    if (str.match(FIND)) {
-        console.log(str);    
-        link = $(this).attr("href");
-         RES=RES+"<a href='"+link+"'>"+link+"</a><br><br>";
-    }
- });
- document.write(RES);
-
-
-// show all quizzes links (works)
-FIND="Quiz";
-RES="";
-$("a").each(function(){   
-    str = $(this).text();
-    if (str.match(FIND)) {
-        console.log(str);    
-        link = $(this).attr("href");
-         RES=RES+"<a href='"+link+"'>"+link+"</a><br><br>";
-    }
- });
- document.write(RES);
