@@ -31,8 +31,9 @@ $("a").each(function(){
     str = $(this).text();
     if (str.match(FIND)) {
         console.log(str);    
-        link = $(this).attr("href");
-         RES=RES+"<a href='"+link+"'>"+link+"</a><br><br>";
+        text = $(this).text();
+        url = $(this).attr("href");
+         RES=RES+"<a href='"+url+"'>"+text+"</a><br><br>";
     }
  });
  return RES;
