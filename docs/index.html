@@ -128,6 +128,11 @@ window.open("https://kujiyy.000webhostapp.com/uop/apa.php?url=" + encodeURICompo
 	    <H5> Sort elements by name</h5>
 	    Use at the top page of each class.<br>
 	    <a id="codeOut" href="javascript:(function(){FIND=[&quot;Discussion Forum&quot;,&quot;Learning Journal&quot;,&quot;Written Assignment&quot;,&quot;Self Quiz&quot;,&quot;Graded Quiz&quot;,&quot;Final Exam&quot;];OUT=&quot;&quot;;$.each(FIND,function(key,find){OUT=OUT+get(find);});document.write(OUT);function get(FIND){RES=&quot;<h3>&quot;+FIND+&quot;</h3>&quot;;$(&quot;a&quot;).each(function(){str=$(this).text();if(str.match(FIND)){console.log(str);text=$(this).text();url=$(this).attr(&quot;href&quot;);RES=RES+&quot;<a href='&quot;+url+&quot;'>&quot;+text+&quot;</a><br><br>&quot;;}});return RES;}})();">sort</a>
+	    
+	    
+	    <h5> Nice View on Javanotes</h5>
+	    CSS and hilight java syntax
+<a id="codeOut" href="javascript:(function(){var colorScheme='darkula';var link=document.createElement('link');link.setAttribute('rel','stylesheet');link.setAttribute('type','text/css');link.setAttribute('href','//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.1.0/styles/'+colorScheme+'.min.css');document.getElementsByTagName('head')[0].appendChild(link);var script=document.createElement('script');script.setAttribute('type','text/javascript');script.setAttribute('src','//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.1.0/highlight.min.js');document.getElementsByTagName('head')[0].appendChild(script);script.addEventListener('load',function(){var pres=document.querySelectorAll('pre');for(var i=0;i<pres.length;++i){if(!pres[i].querySelector('code')){window.hljs.highlightBlock(pres[i]);}else{window.hljs.highlightBlock(pres[i].querySelectorAll('code')[0]);}}});})();">javanotes</a>
     </div>
   </div>
 	    
