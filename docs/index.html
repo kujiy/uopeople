@@ -52,12 +52,15 @@
 
 
 		<h4>
-		# How to use
+		# How to use <small>updated Feb 2020</small>
+
 		</h4>
 		<br />
 		<ol>
 
-		<li> Drag this -> <b><a id="codeOut" href="javascript:(function(){(function(){$(&quot;.post-content-container .text_to_html&quot;).each(function(){$(this).hide()});$(&quot;.post-content-container&quot;).each(function(){post='<div class=&quot;post_abbr&quot;>'+$(this).find(&quot;.text_to_html&quot;).text().slice(0,100)+'...';post+='<a onclick=&quot;expand_this_post(this);&quot;>Expand</a></div>';out=$(this).html()+post;$(this).html(out);});$(&quot;.starter ~ div > .indent > article > .forumpost&quot;).each(function(){$(this).css('box-shadow','-20px 0 0 #76AFB5')});$(&quot;.starter ~ div > .indent > article &quot;).each(function(i){$(this).find(&quot;.forumpost&quot;).each(function(j){$(this).prepend(&quot;<span class='breadcrumb' style='float: left;margin-left: -35px;'>&quot;+(i+1)+'-'+(j+1)+'. </span>');});});})();function expand_this_post(o){$(o).parent().parent().find(&quot;.text_to_html&quot;).each(function(){$(this).show();});$(o).parent().parent().find(&quot;.post_abbr&quot;).each(function(){$(this).hide();});}})();">Shrink!</a>
+		<li> Drag this -> 
+		<b>
+			<a id="codeOut" href="javascript:(function(){(function(){$(&quot;.post-content-container .text_to_html&quot;).each(function(){$(this).hide()});$(&quot;.post-content-container&quot;).each(function(){post='<div class=&quot;post_abbr&quot;>'+$(this).find(&quot;.text_to_html&quot;).text().slice(0,100)+'...';post+='<a onclick=&quot;expand_this_post(this);&quot;>Expand</a></div>';out=$(this).html()+post;$(this).html(out);});$(&quot;.starter ~ div > .indent > article > .forumpost&quot;).each(function(){$(this).css('box-shadow','-20px 0 0 #76AFB5')});$(&quot;.starter ~ div > .indent > article &quot;).each(function(i){$(this).find(&quot;.forumpost&quot;).each(function(j){$(this).prepend(&quot;<span class='breadcrumb' style='float: left;margin-left: -35px;'>&quot;+(i+1)+'-'+(j+1)+'. </span>');});});function expand_this_post(o){$(o).parent().parent().find(&quot;.text_to_html&quot;).each(function(){$(this).show();});$(o).parent().parent().find(&quot;.post_abbr&quot;).each(function(){$(this).hide();});}})();})();">Shrink!</a>
 		</b>
 		  <- link into the bookmark bar of your browser.
 
@@ -104,7 +107,6 @@ $("aside, #fitem_id_attachment_filemanager, #fitem_id_filemanagerinfo").hide();
 
 -->
 	    <h5># Expand textarea in WA, DB and LJ</h5>
-updated Feb 2020<br>
 <a id="codeOut" href='javascript:(function(){$("#id_messageeditable, #id_content_editoreditable").each(function(){var h=$(this).css("height").replace("px","");console.log(h);$(this).css("height",(parseInt(h)+200)+"px");});$("aside, #fitem_id_attachment_filemanager, #fitem_id_filemanagerinfo").hide();})();'>Expand</a>
 
 <!--
