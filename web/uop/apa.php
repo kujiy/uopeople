@@ -95,11 +95,15 @@ if ($_GET["url"] != "") {
                 // https://stackoverflow.com/questions/1070244/how-to-determine-the-first-and-last-iteration-in-a-foreach-loop
             }
             $out .= "$title. Retrieved on $today, from $url";
-            $outshort .= "($outAuthor, $year)";
+            $outshort .= get_short_citation($outAuthor, $year);
         }
         $out = preg_replace("/¥t+/", "", $out);
         $out = trim($out);
     }
+}
+function get_short_citation($author, $year) {
+    $name = preg_replace("/,.*/", "", $author);
+    return "($name, $year)";
 }
 function get_title($url)
 {
