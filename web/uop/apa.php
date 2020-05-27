@@ -274,7 +274,7 @@ function get_year($str, $mixed)
       <!-- まぜこぜ year/author -->
       <div class="form-group row">
           <label for="sel">Mixed Author and dates(Automatic extraction)</label>
-          <input type="text" class="form-control" id="sel" name="sel"  value="<?php echo $mixed; ?>" placeholder=" McLean, T"></input>
+          <input type="text" class="form-control" id="sel" name="sel"  value="<?php echo $mixed; ?>" placeholder=" McLean, T Dec 2020"></input>
       </div>
 
             <div class="form-group row">
