@@ -213,7 +213,7 @@ function get_author_from_mixed($str)
     // 指定の文字列を消す
     // 月、数字、記号
     // TODO: Mayさんとかの名前が消えてしまう
-    $ptn = "/(January |February |March |April |May |June |July |August |September |October |November |December |Jan |Feb |Mar |Apr |May |Jun |Jul |Aug |Sep |Oct |Nov |Dec |by |\d+|[\$-\/:-?{-~!\"\^_`\[\]])/i";
+    $ptn = "/(last |updated|written| on|January |February |March |April |May |June |July |August |September |October |November |December |Jan |Feb |Mar |Apr |May |Jun |Jul |Aug |Sep |Oct |Nov |Dec |by |\d+|[\$-\/:-?{-~!\"\^_`\[\]])/i";
     $str = preg_replace($ptn, "", $str);
     $str = trim($str);
 
