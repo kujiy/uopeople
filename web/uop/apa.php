@@ -47,7 +47,7 @@ if ($_GET["url"] != "") {
     //echo $url;
     //    echo "<br>¥n";
 
-        $url = trim($url);
+        $url = preg_replace("/\n/","",trim($url));
         $urlp = "http://" . $url ;
         $urls = "https://" .  $url ;
 
@@ -62,7 +62,7 @@ if ($_GET["url"] != "") {
         }
         $today = date("M d, Y");
 
-        $title = get_title($url) ;
+        $title = extract_title($url) ;
         // print_r($title);
         // exit;
 
@@ -71,7 +71,7 @@ if ($_GET["url"] != "") {
         $rawauthor =  filter_input(INPUT_GET, "rawauthor");
         // bookmarkletで選択していた部分をmixed(date+author)として処理
         $mixed =  filter_input(INPUT_GET, "sel");
-        $year =  get_year(filter_input(INPUT_GET, "year"), $mixed);
+        $year =  extract_year(filter_input(INPUT_GET, "year"), $mixed);
 
         // filter_input(INPUT_GET, "email", FILTER_VALIDATE_EMAIL)
         if ($url && $title) {
@@ -82,9 +82,9 @@ if ($_GET["url"] != "") {
                 if ($rawauthor) {
                     $outAuthor = $rawauthor;
                 } elseif ($author) {
-                    $outAuthor = get_initial($author);
+                    $outAuthor = extract_initial($author);
                 } elseif ($mixed) {
-                    $outAuthor = get_author_from_mixed($mixed);
+                    $outAuthor = extract_authorfrom_mixed($mixed);
                 }
                 $out .="$outAuthor. ";
                 if ($year) {
@@ -95,20 +95,20 @@ if ($_GET["url"] != "") {
                 // https://stackoverflow.com/questions/1070244/how-to-determine-the-first-and-last-iteration-in-a-foreach-loop
             }
             $out .= "$title. Retrieved on $today, from $url";
-            $outshort .= get_short_citation($outAuthor, $year);
+            $outshort .= create_short_citation($outAuthor, $year);
         }
         $out = preg_replace("/¥t+/", "", $out);
         $out = trim($out);
     }
 }
-function get_short_citation($author, $year) {
+function create_short_citation($author, $year) {
     $name = preg_replace("/,.*/", "", $author);
     return "($name, $year)";
 }
-function get_title($url)
+function extract_title($url)
 {
     try {
-        $str = getUrlContent($url);
+        $str = fetchUrlContent($url);
 
         if ($str === false) {
             // Handle the error
@@ -148,7 +148,7 @@ function get_title($url)
 }
 
 
-function getUrlContent($url)
+function fetchUrlContent($url)
 {
     $ch = curl_init();
     curl_setopt($ch, CURLOPT_URL, $url);
@@ -178,7 +178,7 @@ function getUrlContent($url)
     // return ($httpcode>=200 && $httpcode<300) ? $data : false;
 }
 
-function get_initial($str)
+function extract_initial($str)
 {
     $str = trim($str);
 
@@ -200,7 +200,7 @@ function get_initial($str)
 }
 
 // author/data mixed から自動でそれっぽいのを抽出
-function get_author_from_mixed($str)
+function extract_authorfrom_mixed($str)
 {
     $str = trim($str);
     // echo "$str";
@@ -218,7 +218,7 @@ function get_author_from_mixed($str)
     $str = trim($str);
 
     if ($str != "") {
-        return get_initial($str);
+        return extract_initial($str);
     } else {
         return false;
     }
@@ -226,7 +226,7 @@ function get_author_from_mixed($str)
 
 // 文字列からyearぽいものを返す
 // ２つの候補から順に探す
-function get_year($str, $mixed)
+function extract_year($str, $mixed)
 {
     if (preg_match("/(\d\d\d\d)/", $str, $res)) {
         return $res[1];
@@ -298,29 +298,29 @@ function get_year($str, $mixed)
           <div class="panel-heading">Here you are.</div>
           <div class="panel-body" id="ans">
           <!-- Target -->
-                    <form class="form-horizontal form-group-lg">
-                          <div class="form-group">
+            <form class="form-horizontal form-group-lg" onsubmit="return false">
+                    <div class="form-group">
 
-                                <textarea id="bar" class="form-control" rows="2"><?php echo $out; ?></textarea>
+                        <textarea id="bar" class="form-control" rows="2"><?php echo $out; ?></textarea>
 
-                                <!-- Trigger -->
-                                <button class="btn btn-block" data-clipboard-target="#bar">
-                                   <span class="glyphicon glyphicon-copy" aria-hidden="true"></span>copy to clipboard</button>
+                        <!-- Trigger -->
+                        <button class="btn btn-block" data-clipboard-target="#bar">
+                            <span class="glyphicon glyphicon-copy" aria-hidden="true"></span>copy to clipboard</button>
 
-                                <br />
+                        <br />
 
-                                <textarea id="short" class="form-control" rows="2"><?php echo $outshort; ?></textarea>
+                        <textarea id="short" class="form-control" rows="2"><?php echo $outshort; ?></textarea>
 
-                                <!-- Trigger -->
-                                <button class="btn btn-block" data-clipboard-target="#short">
-                                   <span class="glyphicon glyphicon-copy" aria-hidden="true"></span>copy to clipboard</button>
+                        <!-- Trigger -->
+                        <button class="btn btn-block" data-clipboard-target="#short">
+                            <span class="glyphicon glyphicon-copy" aria-hidden="true"></span>copy to clipboard</button>
 
-                                <br />
+                        <br />
 
-                                <div class="alert alert-warning" role="alert">Note: This tool doesn't take Author's name.</div>
+                        <div class="alert alert-warning" role="alert">Note: This tool doesn't take Author's name.</div>
 
-                            </div>
-                    </form>
+1                    </div>
+            </form>
 
 
           </div>
@@ -385,9 +385,9 @@ function hideError() {
 }
 
 function showSuccess() {
-
         $(".panel-danger").addClass("hidden");
         $(".panel-success").removeClass("hidden");
+        addHistory();
 }
 
 
@@ -421,8 +421,9 @@ if (typeof(Storage) !== "undefined") {
     // Code for localStorage/sessionStorage.
 
 
-           function addHistory(url, apa) {
-               console.log("addHistory");
+           function addHistory() {
+               var url = document.URL;
+               console.log("addHistory: "+ url);
                //Storing New result in previous History localstorage
                if (localStorage.getItem("history") != null)
                {
@@ -471,7 +472,8 @@ if (typeof(Storage) !== "undefined") {
                $('#lastResults').empty();
                for(var i =0; i<oldhistoryarray.length; i++)
                {
-                   $('#lastResults').before('<a href="./apa.php?url=' + encodeURIComponent(oldhistoryarray[i]) + '">'+oldhistoryarray[i]+'</p>');
+                   const readableURL = decodeURIComponent(oldhistoryarray[i]).replace(/.*apa.php\?url=/, "");
+                   $('#lastResults').before('<a href="' + oldhistoryarray[i] + '">'+ readableURL +'</p>');
                }
            }
 
