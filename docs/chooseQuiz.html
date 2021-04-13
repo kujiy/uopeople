@@ -1,0 +1,26 @@
+<a id="codeOut" href="javascript:(function(){(function(){function choose(num){$(&quot;div.answer>div:nth-child(&quot;+num+&quot;) input:checkbox&quot;).each(function(){$(this).attr(&quot;checked&quot;,true);});$(&quot;div.answer>div:nth-child(&quot;+num+&quot;) input:radio&quot;).each(function(){$(this).prop(&quot;checked&quot;,true);});}var num=prompt('which answer you choose? 1 to 5:','1');if(num>2){if(Math.random()>=0.5){choose(1);}else{choose(2);}}choose(num);$(&quot;html, body&quot;).animate({scrollTop:$(document).height()},&quot;slow&quot;);})();})();">ChooseQuize</a>
+
+<script>
+(function() {
+    function choose(num) {
+        $("div.answer>div:nth-child(" + num + ") input:checkbox").each(function() {
+            $(this).attr("checked", true);
+        });
+        $("div.answer>div:nth-child(" + num + ") input:radio").each(function() {
+            $(this).prop("checked", true);
+        });
+    }
+    var num = prompt('which answer you choose? 1 to 5:', '1');
+    if(num>2) {
+        if (Math.random() >= 0.5) {
+            choose(1);
+        } else {
+            choose(2);
+        }
+    }
+    choose(num);
+    $("html, body").animate({
+        scrollTop: $(document).height()
+    }, "slow");
+})();
+</script>
