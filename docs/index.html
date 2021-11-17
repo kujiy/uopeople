@@ -58,10 +58,19 @@
 		<br />
 		<ol>
 
+			<!--
+(function() {
+    (function() {
+        $("article > div > article").each(function() {
+            $(this).css('box-shadow', '-20px 0 0 #76AFB5')
+        });
+    })();
+})();
+
+-->
 		<li> Drag this ->
 		<b>
-			<a id="codeOut" href="javascript:(function(){(function(){$(&quot;.post-content-container .text_to_html&quot;).each(function(){$(this).hide()});$(&quot;.post-content-container&quot;).each(function(){post='<div class=&quot;post_abbr&quot;>'+$(this).find(&quot;.text_to_html&quot;).text().slice(0,100)+'...';post+='<a onclick=&quot;expand_this_post(this);&quot;>Expand</a></div>';out=$(this).html()+post;$(this).html(out);});$(&quot;.starter ~ div > .indent > article > .forumpost&quot;).each(function(){$(this).css('box-shadow','-20px 0 0 #76AFB5')});$(&quot;.starter ~ div > .indent > article &quot;).each(function(i){$(this).find(&quot;.forumpost&quot;).each(function(j){$(this).prepend(&quot;<span class='breadcrumb' style='float: left;margin-left: -35px;'>&quot;+(i+1)+'-'+(j+1)+'. </span>');});});function expand_this_post(o){$(o).parent().parent().find(&quot;.text_to_html&quot;).each(function(){$(this).show();});$(o).parent().parent().find(&quot;.post_abbr&quot;).each(function(){$(this).hide();});}})();})();">Shrink!</a>
-		</b>
+<a id="codeOut" href="javascript:(function(){(function(){(function(){$(&quot;article > div > article&quot;).each(function(){$(this).css('box-shadow','-20px 0 0 #76AFB5')});})();})();})();">shrink</a>		</b>
 		  <- link into the bookmark bar of your browser.
 
 <br />
