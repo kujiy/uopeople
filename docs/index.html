@@ -127,7 +127,9 @@ window.open("https://uopeople.herokuapp.com/uop/apa.php?url=" + encodeURICompone
 -->
 	    
 	    <h5>Choose quiz</h5>
-	    <a id="codeOut" href="javascript:(function(){function choose(num){$(&quot;div.answer>div:nth-child(&quot;+num+&quot;) input:checkbox&quot;).each(function(){$(this).attr(&quot;checked&quot;,true)});$(&quot;div.answer>div:nth-child(&quot;+num+&quot;) input:radio&quot;).each(function(){$(this).prop(&quot;checked&quot;,true)});}(function(){var num=prompt('which answer you choose? 1 to 5:','1');var rand=Math.floor(Math.random()*(3-1)+1);choose(rand);choose(num);$(&quot;html, body&quot;).animate({scrollTop:$(document).height()},&quot;slow&quot;);$(&quot;form .submitbtns input&quot;).click();})();})();">quiz</a>
+	    1. <a id="codeOut" href="javascript:(function(){function choose(num){$(&quot;div.answer>div:nth-child(&quot;+num+&quot;) input:checkbox&quot;).each(function(){$(this).attr(&quot;checked&quot;,true)});$(&quot;div.answer>div:nth-child(&quot;+num+&quot;) input:radio&quot;).each(function(){$(this).prop(&quot;checked&quot;,true)});}(function(){var num=prompt('which answer you choose? 1 to 5:','1');var rand=Math.floor(Math.random()*(3-1)+1);choose(rand);choose(num);$(&quot;html, body&quot;).animate({scrollTop:$(document).height()},&quot;slow&quot;);$(&quot;form .submitbtns input&quot;).click();})();})();">quiz</a>
+<br>
+	    2. <a id="codeOut" href="javascript:(function(){$(&quot;#region-main > div&quot;).children('.submitbtns').eq(1).find('button').click();setTimeout(function(){console.log(1);$(&quot;.moodle-dialogue-bd .btn-primary&quot;).click();},1000);setTimeout(function(){const exp=/http.*cmid=(\d+)/ig;const url=document.URL.replace(exp,&quot;https://my.uopeople.edu/mod/quiz/view.php?id=$1&quot;);window.open(url);},500);})();">quiz-submit</a>
 	    <hr>
 	    
 	    <h5># Get APA citation</h5>
