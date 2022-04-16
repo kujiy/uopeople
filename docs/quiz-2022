@@ -1,0 +1,41 @@
+still working
+
+# truefalse
+
+$(".truefalse .content").each((i, o) => {
+
+		let res = []
+
+    const question =  $(o).find(".qtext p").html()
+    console.log(question)
+
+    $(o).find(".answer>div").each((i, ansObj) => {
+         const answer = $(ansObj).find("label").html();
+         let correct = $(ansObj).find("i").attr("title");
+         if (correct  === "Correct") {
+         	correct = true;
+         } else if (correct === "Incorrect") {
+         	correct = false;
+         } else {
+           correct = null;
+         }
+         res.push({
+	         question: question,
+           answer: answer,
+           correct: correct
+         })
+    })
+    
+    let correct = "";
+    res.forEach((o) => {
+        if (o.correct !== null) correct = o.correct
+    })
+    res.forEach((o) => {
+        if (o.correct === null) o.correct = !correct
+    })
+    res = res.filter(o => o.correct)
+    console.log(res)
+    
+});
+
+
