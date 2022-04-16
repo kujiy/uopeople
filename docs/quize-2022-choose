@@ -22,7 +22,7 @@ function chooseCorrect(question, answer, ansObj, hasChoosenCorrect) {
 	  tx.executeSql('select correct from quiz where question like ? and answer like ?', [question, answer],
 	    (tx, results) => {
 	      if(!hasChoosenCorrect && results.rows.length == 0) {
-            	$(ansObj).find("input:radio").prop("checked",true);
+            	// $(ansObj).find("input:radio").prop("checked",true);
             	return;
 	      }
 
@@ -31,13 +31,15 @@ function chooseCorrect(question, answer, ansObj, hasChoosenCorrect) {
           	let item = results.rows.item(i);
 	        if(item.correct === "true") {
             	$(ansObj).find("input:radio").prop("checked",true);
+            	console.log(ansObj);
+            	console.log("check true" + answer + question)
             	hasChoosenCorrect = true;
             	return hasChoosenCorrect
 	        } else if (item.correct === "false") {
 	        	// skip
             	$(ansObj).find("input:radio").attr("mymark", "incorrect");
 	        } else if (!hasChoosenCorrect) { //correct=null
-            	// $(ansObj).find("input:radio").prop("checked",true);
+            	$(ansObj).find("input:radio").prop("checked",true);
 	        }
 	      }
 	    },
@@ -66,7 +68,7 @@ function truefalse() {
          if(!hasChoosenCorrect) {
         	const probability = $(ansObj).find("input:radio").attr("mymark") !== "incorrect";
         	if (probability) {
-        	     $(ansObj).find("input:radio").prop("checked",true);
+        	     // $(ansObj).find("input:radio").prop("checked",true);
         	}
          }
     })
@@ -86,7 +88,7 @@ function multichoice() {
     	let hasChoosenCorrect = false;
          const answer = $(ansObj).find("p").html();
          hasChoosenCorrect = chooseCorrect(question, answer, ansObj, hasChoosenCorrect);
-         if(!hasChoosenCorrect) {
+         if($(ansObj).find("input:radio").prop("checked") === false) {
         	const probability = $(ansObj).find("input:radio").attr("mymark") !== "incorrect";
         	if (probability) {
         	     $(ansObj).find("input:radio").prop("checked",true);
