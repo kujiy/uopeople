@@ -1,13 +1,32 @@
-still working
+// # Store side
 
-# truefalse
+var name = 'localdb'
+var version = '1.0'
+var description = 'Web SQL Database'
+var size = 2 * 1024 * 1024
+var db = openDatabase(name, version, description, size)
 
-$(".truefalse .content").each((i, o) => {
 
-		let res = []
+  // テーブル作成
+  db.transaction(function(tx){
+    tx.executeSql(`
+      create table if not exists quiz (
+        id integer primary key autoincrement,
+        question varchar,
+        answer varchar,
+        correct bool
+      )
+    `)
+  })
 
-    const question =  $(o).find(".qtext p").html()
-    console.log(question)
+
+function truefalse() {
+  let res = []
+  $(".truefalse .content").each((i, o) => {
+
+
+    const question =  $(o).find(".qtext p").html();
+    console.log(question);
 
     $(o).find(".answer>div").each((i, ansObj) => {
          const answer = $(ansObj).find("label").html();
@@ -33,20 +52,18 @@ $(".truefalse .content").each((i, o) => {
     res.forEach((o) => {
         if (o.correct === null) o.correct = !correct
     })
-    res = res.filter(o => o.correct)
-    console.log(res)
-    
-});
+    res = res.filter(o => o.correct);    
+  });
+  return res;
+}
 
 
+function multichoice() {
+  let res = []
+  $(".multichoice .content").each((i, o) => {
 
-
-$(".multichoice .content").each((i, o) => {
-
-		let res = []
-
-    const question =  $(o).find(".qtext p").html()
-    console.log(question)
+    const question =  $(o).find(".qtext p").html();
+    console.log(question);
 
     $(o).find(".answer>div").each((i, ansObj) => {
          const answer = $(ansObj).find("p").html();
@@ -65,11 +82,19 @@ $(".multichoice .content").each((i, o) => {
          })
     })
     
-    console.log(res)
-    
-});
+  });
+  return res;
+}
 
+res = [...truefalse(), ...multichoice()];
 
-
-
-
+function callback() {
+	console.log("inserted.")
+}
+console.log(res);
+res.forEach(o => {
+	console.log('insert into quiz (question, answer, correct) values (?, ?, ?)', [o.question, o.answer, o.correct]);
+	db.transaction(function (tx) {
+	  tx.executeSql('insert into quiz (question, answer, correct) values (?, ?, ?)', [o.question, o.answer, o.correct], callback)
+	})
+})
