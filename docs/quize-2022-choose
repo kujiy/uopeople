@@ -38,7 +38,7 @@ function chooseCorrect(question, answer, ansObj, hasChoosenCorrect) {
 	        } else if (item.correct === "false") {
 	        	// skip
             	$(ansObj).find("input:radio").attr("mymark", "incorrect");
-	        } else if (!hasChoosenCorrect) { //correct=null
+	        } else if (!hasChoosenCorrect && item.correct === "null") { //correct=null
             	$(ansObj).find("input:radio").prop("checked",true);
 	        }
 	      }
@@ -68,7 +68,7 @@ function truefalse() {
          if(!hasChoosenCorrect) {
         	const probability = $(ansObj).find("input:radio").attr("mymark") !== "incorrect";
         	if (probability) {
-        	     // $(ansObj).find("input:radio").prop("checked",true);
+        	     $(ansObj).find("input:radio").prop("checked",true);
         	}
          }
     })
@@ -102,4 +102,3 @@ function multichoice() {
 res = [...truefalse(), ...multichoice()];
 
 console.log(res);
-
