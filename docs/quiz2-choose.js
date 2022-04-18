@@ -91,5 +91,5 @@ res = [...truefalse(), ...multichoice()];
 			$("html, body").animate({
 			scrollTop: $(document).height()
 			}, "slow");
-			$("form .submitbtns input").click();
+			$("form .submitbtns input[name=next]").click();
 	}, 1000);
