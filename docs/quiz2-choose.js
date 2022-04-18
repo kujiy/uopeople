@@ -3,6 +3,7 @@ function chooseCorrect(question, answer, ansObj) {
 		tx.executeSql('select correct from quiz where question like ? and answer like ?', [question, answer],
 			(tx, results) => {
 				if (results.rows.length === 0) {
+					$(ansObj).find("input:radio").prop("checked", true);
 					return;
 				}
 				/* SUCCESS */
@@ -42,9 +43,10 @@ function truefalse() {
 	$(".truefalse .content").each((i, o) => {
 
 		const question = $(o).find(".qtext").text();
-
+		console.log(question);
 		$(o).find(".answer>div").each((i, ansObj) => {
 			const answer = $(ansObj).find("label").text();
+			console.log(answer);
 			chooseCorrect(question, answer, ansObj);
 		})
 	});
