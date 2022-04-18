@@ -3,7 +3,14 @@ function chooseCorrect(question, answer, ansObj) {
 		tx.executeSql('select correct from quiz where question like ? and answer like ?', [question, answer],
 			(tx, results) => {
 				if (results.rows.length === 0) {
-					$(ansObj).find("input:radio").prop("checked", true);
+					/* check when no answer has been recorded */
+					tx.executeSql('select correct from quiz where question like ?', [question],
+						(tx, results) => {
+							if (results.rows.length === 0) {
+								console.log("--- because no-DB: " + answer);
+								$(ansObj).find("input:radio").prop("checked", true);
+							}
+					})
 					return;
 				}
 				/* SUCCESS */
