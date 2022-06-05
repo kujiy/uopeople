@@ -69,6 +69,41 @@ function multichoice() {
   return res;
 }
 
+
+
+function shortanswer() {
+  $( ".answernumber" ).remove();
+
+  let res = [];
+  $(".shortanswer .content").each((i, o) => {
+
+    const question =  $(o).find(".qtext").text();
+    console.log(question);
+
+    $(o).find("input[type=text]").each((i, ansObj) => {
+         const answer = $(ansObj).attr("value");
+         let correct = $(o).find("i").attr("title");
+         console.log(correct);
+         if (correct  === "Correct") {
+         	correct = true;
+         } else if (correct === "Incorrect") {
+         	correct = false;
+         } else {
+           console.log(correct);
+           correct = null;
+         }
+         res.push({
+	       question: question,
+           answer: answer,
+           correct: correct
+         })
+    })
+    
+  });
+  return res;
+}
+
+
 /* store main -------------------------------------- */
 
 var name = 'localdb';
@@ -83,7 +118,7 @@ var db = openDatabase(name, version, description, size);
   });
 
 
-res = [...truefalse(), ...multichoice()];
+res = [...truefalse(), ...multichoice(), ...shortanswer()];
 
 function callback() {
 	console.log("inserted.");
