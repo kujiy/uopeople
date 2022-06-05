@@ -82,6 +82,8 @@ function shortanswer() {
 
     $(o).find("input[type=text]").each((i, ansObj) => {
          const answer = $(ansObj).attr("value");
+         console.log(answer);
+
          let correct = $(o).find("i").attr("title");
          console.log(correct);
          if (correct  === "Correct") {
@@ -89,9 +91,9 @@ function shortanswer() {
          } else if (correct === "Incorrect") {
          	correct = false;
          } else {
-           console.log(correct);
            correct = null;
          }
+         console.log(correct);
          res.push({
 	       question: question,
            answer: answer,
@@ -137,3 +139,4 @@ res.forEach(o => {
 const exp = /http.*cmid=(\d+)/ig;
 const url = document.URL.replace(exp, "https://my.uopeople.edu/mod/quiz/view.php?id=$1");
 window.open(url);
+
