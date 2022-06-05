@@ -3,6 +3,14 @@ function chooseCorrect(question, answer, ansObj) {
 		tx.executeSql('select correct from quiz where question like ? and answer like ?', [question, answer],
 			(tx, results) => {
 				if (results.rows.length === 0) {
+					/* check when no answer has been recorded */
+					tx.executeSql('select correct from quiz where question like ?', [question],
+						(tx, results) => {
+							if (results.rows.length === 0) {
+								console.log("--- because no-DB: " + answer);
+								$(ansObj).find("input:radio").prop("checked", true);
+							}
+					})
 					return;
 				}
 				/* SUCCESS */
@@ -42,9 +50,10 @@ function truefalse() {
 	$(".truefalse .content").each((i, o) => {
 
 		const question = $(o).find(".qtext").text();
-
+		console.log(question);
 		$(o).find(".answer>div").each((i, ansObj) => {
 			const answer = $(ansObj).find("label").text();
+			console.log(answer);
 			chooseCorrect(question, answer, ansObj);
 		})
 	});
@@ -91,5 +100,5 @@ res = [...truefalse(), ...multichoice()];
 			$("html, body").animate({
 			scrollTop: $(document).height()
 			}, "slow");
-			$("form .submitbtns input").click();
+			$("form .submitbtns input[name=next]").click();
 	}, 1000);
