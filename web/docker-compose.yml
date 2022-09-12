@@ -1,0 +1,18 @@
+version: '3'
+
+services:
+  uop:
+    restart: always
+    container_name: uop
+    #image: python:2
+    build:
+      context: .
+    ports:
+      - 880:80
+    #environment:
+    #  - PYTHONPATH=/aaa
+    # env_file:
+    #   - /common.env
+    #command: /usr/bin/tail -f /dev/null
+    # volumes:
+    #   - /etc/localtime:/etc/localtime
