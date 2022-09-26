@@ -473,7 +473,7 @@ if (typeof(Storage) !== "undefined") {
                for(var i =0; i<oldhistoryarray.length; i++)
                {
                    const readableURL = decodeURIComponent(oldhistoryarray[i]).replace(/.*apa.php\?url=/, "");
-                   $('#lastResults').before('<a href="' + oldhistoryarray[i] + '">'+ readableURL +'</p>');
+                   $('#lastResults').before('<a href="' + readableURL + '">'+ readableURL +'</p>');
                }
            }
 
