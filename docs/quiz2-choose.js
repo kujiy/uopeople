@@ -106,11 +106,11 @@ function multichoice() {
 	return res;
 }
 
-function shortanswer() {
+function shortanswer(answerType) {
 	$(".answernumber").remove();
 
 	let res = [];
-	$(".shortanswer .content").each((i, o) => {
+	$(answerType + " .content").each((i, o) => {
 
 		const question = $(o).find(".qtext").text();
 		console.log(question);
@@ -137,12 +137,14 @@ db.transaction(function(tx) {
 });
 
 
-res = [...truefalse(), ...multichoice(), ...shortanswer()];
+res = [...truefalse(), ...multichoice(), ...shortanswer(".shortanswer"), ...shortanswer(".numerical")];
 
-/* -----------------------------------*/
-	setTimeout(function() {
+
 			$("html, body").animate({
 			scrollTop: $(document).height()
 			}, "slow");
+			
+/* -----------------------------------*/
+	setTimeout(function() {
 			$("form .submitbtns input[name=next]").click();
-	}, 1000);
+	}, 4000);

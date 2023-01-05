@@ -17,7 +17,7 @@ function truefalse() {
          } else if (correct === "Incorrect") {
          	correct = false;
          } else {
-           correct = null;
+           return
          }
          res.push({
 	       question: question,
@@ -56,7 +56,7 @@ function multichoice() {
          } else if (correct === "Incorrect") {
          	correct = false;
          } else {
-           correct = null;
+           return
          }
          res.push({
 	       question: question,
@@ -71,11 +71,11 @@ function multichoice() {
 
 
 
-function shortanswer() {
+function shortanswer(answerType) {
   $( ".answernumber" ).remove();
 
   let res = [];
-  $(".shortanswer .content").each((i, o) => {
+  $(answerType + " .content").each((i, o) => {
 
     const question =  $(o).find(".qtext").text();
     console.log(question);
@@ -91,7 +91,7 @@ function shortanswer() {
          } else if (correct === "Incorrect") {
          	correct = false;
          } else {
-           correct = null;
+           return
          }
          console.log(correct);
          res.push({
@@ -99,6 +99,44 @@ function shortanswer() {
            answer: answer,
            correct: correct
          })
+    })
+    
+  });
+  return res;
+}
+
+
+/* 未完成。新しいDB tableが必要 */
+function multianswer() {
+  $( ".answernumber" ).remove();
+
+  let res = [];
+  $(".multianswer .content").each((i, o) => {
+
+    const question =  $(o).find("p").text();
+    console.log(question);
+    let answers = [];
+    let corrects = [];
+    $(o).find(".subquestion input").each((i, ansObj) => {
+         const answer = $(ansObj).val();
+         console.log(answer)
+         correct = $(ansObj).find("i").attr("title");
+         if (correct  === "Correct") {
+           corrects.push(true);
+           answers.push(answer)
+         } else if (correct === "Incorrect") {
+           corrects.push(false);
+           answers.push('')
+         } else {
+           corrects.push(null);
+           answers.push('')
+         }
+         
+    })
+    res.push({
+      question: question,
+        answer: answers.join(","),
+        correct: corrects.every(boolean => boolean === true)
     })
     
   });
@@ -120,7 +158,7 @@ var db = openDatabase(name, version, description, size);
   });
 
 
-res = [...truefalse(), ...multichoice(), ...shortanswer()];
+res = [...truefalse(), ...multichoice(), ...shortanswer(".shortanswer"), ...shortanswer(".numerical"), ...multianswer()];
 
 function callback() {
 	console.log("inserted.");
