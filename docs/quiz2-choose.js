@@ -65,7 +65,9 @@ function chooseCorrect(question, answer, ansObj) {
                     const probability = $(ansObj).find("input:radio").attr("mymark") !== "incorrect";
                     if (probability) {
                         console.log("--- because probability: " + answer);
-                        $(ansObj).find("input:radio").prop("checked", true);
+                        if (!GRADED_QUIZ) {
+                	        $(ansObj).find("input:radio").prop("checked", true);
+                	    }
                     } else {
                     	console.log("--- no probablitiy")
                     }
