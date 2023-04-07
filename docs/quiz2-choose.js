@@ -1,3 +1,7 @@
+/*
+https://caiorss.github.io/bookmarklet-maker/
+*/
+
 function isGradedQuiz() {
     let out = false;
     $("#page-navbar nav a").each((_i, o) => {
@@ -17,59 +21,103 @@ function chooseCorrect(question, answer, ansObj) {
         let sql = "";
         let arg = [];
         if (answer) {
-            sql = 'select * from quiz where question like ? and answer like ?';
+            sql = 'select * from quiz where question like ? and answer like ? ORDER BY correct';
             arg = [question, answer];
         } else {
-            sql = 'select * from quiz where question like ? ';
+            sql = 'select * from quiz where question like ?  ORDER BY correct';
             arg = [question];
         }
-        console.log(sql, arg);
+        // console.log(sql, arg);
+
+
         tx.executeSql(sql, arg,
             (tx, results) => {
-                console.log("result:");
-                console.log(results);
-                console.log("--- results.rows.length: " + results.rows.length);
+                // console.log("result:");
+                // console.log(results);
+                // console.log("--- results.rows.length: " + results.rows.length);
 
+                // SQL has no hitstory
                 if (results.rows.length === 0) {
-                	console.log("--- results.rows.length : got in");
+                    // console.log("--- results.rows.length : got in");
                     /* check when no answer has been recorded */
                     tx.executeSql('select correct from quiz where question like ?', [question],
                         (tx, results) => {
-                		console.log("--- results.rows.length - inside: " + results.rows.length);
-                            if (results.rows.length === 0) {
-                                console.log("--- because no-DB: " + answer);
+                          // console.log("--- results.rows.length - inside: " + results.rows.length);
+                          if (results.rows.length === 0) {
+                                // console.log("--- because no-DB: " + answer);
                                 if (!GRADED_QUIZ) {
-                                	console.log("checked: " + answer);
-                                    $(ansObj).find("input:radio").prop("checked", true);
+                                    console.log("no-DB checked: " + answer);
+                                    if($(ansObj).find("input:radio")) {
+                                        $(ansObj).find("input:radio").prop("checked", true);
+                                        $(ansObj).find(">div").css("background", "#cc00cc")
+                                    }
+                                    if($(ansObj).find("input:checkbox")) {
+                                        $(ansObj).find("input:checkbox").prop("checked", true);
+                                        $(ansObj).find(">div").css("background", "#cc20ac")
+                                    }
                                 }
                             }
                         });
                 }
+
                 /* SUCCESS */
                 let hasChoosenCorrect = false;
+
                 for (i = 0; i < results.rows.length; i++) {
                     let item = results.rows.item(i);
                     console.log(item.question + " anwser=" + item.answer + " DB=" + item.correct);
                     if (item.correct === "true") {
                         console.log("--- because DB has True. the correct answer from DB is " + item.answer);
                         hasChoosenCorrect = true;
+                        console.log("correct checked: " + item.answer);
+                        $(ansObj).find("input:radio").attr("mymark", "correct");
+                        $(ansObj).find("input:checkbox").attr("mymark", "correct");
                         $(ansObj).find("input:radio").prop("checked", true);
+                        $(ansObj).find("input:checkbox").prop("checked", true);
                         $(ansObj).val(item.answer); // shortanswer
+                        $(ansObj).find(">div").css("background", "#00cc00")
                     } else if (item.correct === "false") {
+                        console.log("INcorrect checked: " + item.answer);
                         /* skip */
                         $(ansObj).find("input:radio").attr("mymark", "incorrect");
+                        $(ansObj).find("input:checkbox").attr("mymark", "incorrect");
+                        // console.log($(ansObj))
+                        // console.log($(ansObj).find("input:checkbox"))
+                        console.log("INcorrect unchecked: " + item.answer);
+                        $(ansObj).find("input:checkbox").prop("checked", false);
+                        $(ansObj).find(">div").css("background", "#a06000")
                     }
                 }
                 if (!hasChoosenCorrect) {
-                	console.log($(ansObj).find("input:radio").attr("mymark"))
-                    const probability = $(ansObj).find("input:radio").attr("mymark") !== "incorrect";
+                    // console.log("!has Choosen Correct")
+                    // console.log($(ansObj))
+                    const probability = $(ansObj).find("input:radio")
+                            ? $(ansObj).find("input:radio").attr("mymark") !== "incorrect"
+                            : $(ansObj).find("input:checkbox").attr("mymark") !== "incorrect"
                     if (probability) {
-                        console.log("--- because probability: " + answer);
+                        // console.log("--- because probability: " + answer);
                         if (!GRADED_QUIZ) {
-                	        $(ansObj).find("input:radio").prop("checked", true);
-                	    }
+                            // console.log("--- never come here in GRADED_QUIZ")
+                            console.log("probably checked:" + answer)
+                            let otherCheckboxes = $(ansObj).parent().parent().find("input:radio[mymark='correct']")
+
+                            if($(ansObj).find("input:radio")
+                                && otherCheckboxes.length == 0)
+                            {
+                                $(ansObj).find("input:radio").prop("checked", true);
+                                $(ansObj).find(">div").css("background", "#cccc00")
+                            }
+                            // このloopはcheckboxひとつだけ。他のcheckboxにcorrectがあれば、適当なcheckをしない
+                            otherCheckboxes = $(ansObj).parent().parent().find("input:checkbox[mymark='correct']")
+                            if($(ansObj).find("input:checkbox") 
+                                && otherCheckboxes.length == 0)
+                            {
+                                $(ansObj).find("input:checkbox").prop("checked", true);
+                                $(ansObj).find(">div").css("background", "#805020")
+                            }
+                        }
                     } else {
-                    	console.log("--- no probablitiy")
+                        console.log("--- no probablitiy")
                     }
                 }
 
@@ -81,7 +129,6 @@ function chooseCorrect(question, answer, ansObj) {
             })
     })
 }
-
 
 async function truefalse() {
     $(".truefalse .content").each((i, o) => {
@@ -143,14 +190,14 @@ db.transaction(function(tx) {
 
 res = Promise.all([truefalse(), multichoice(), shortanswer(".shortanswer"), shortanswer(".numerical")]).then(() => {
 
-	/* -----------------------------------*/
-	setTimeout(function() {
-        $(document).scrollTop($(document).height());
-	    $("form .submitbtns input[name=next]").click();
-	}, 2000);
+    if (!GRADED_QUIZ) {
 
-
-
+        /* -----------------------------------*/
+        setTimeout(function() {
+            $(document).scrollTop($(document).height());
+            $("form .submitbtns input[name=next]").click();
+        }, 2000);
+    }
 
 })
 
