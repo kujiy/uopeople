@@ -61,17 +61,19 @@ if ($_GET["url"] != "") {
             echo "your url is invalid. $url";
         }
         $today = date("M d, Y");
-
-        $title = extract_title($url) ;
+        $html = fetch($url);
+        $title = extract_title($html, $url) ;
         // print_r($title);
         // exit;
 
         // 年と作者
         $author =  filter_input(INPUT_GET, "author");
         $rawauthor =  filter_input(INPUT_GET, "rawauthor");
+        $youtubeAuthor = extract_author($html);
         // bookmarkletで選択していた部分をmixed(date+author)として処理
         $mixed =  filter_input(INPUT_GET, "sel");
         $year =  extract_year(filter_input(INPUT_GET, "year"), $mixed);
+        $year_youtube =  extract_year(extract_youtube_year($html));
 
         // filter_input(INPUT_GET, "email", FILTER_VALIDATE_EMAIL)
         if ($url && $title) {
@@ -81,13 +83,17 @@ if ($_GET["url"] != "") {
                 // mixedからコピペでauthorを手動取り出しするシーンを考慮してmixed以外を優先してauthor取得
                 if ($rawauthor) {
                     $outAuthor = $rawauthor;
+                } elseif ($youtubeAuthor) {
+                    $outAuthor = $youtubeAuthor;
                 } elseif ($author) {
                     $outAuthor = extract_initial($author);
                 } elseif ($mixed) {
                     $outAuthor = extract_authorfrom_mixed($mixed);
                 }
                 $out .="$outAuthor. ";
-                if ($year) {
+                if ($year_youtube) {
+                    $out .="($year_youtube). ";
+                } elseif ($year) {
                     $out .="($year). ";
                 } else {
                     $out .="(n.d.). ";
@@ -105,8 +111,7 @@ function create_short_citation($author, $year) {
     $name = preg_replace("/,.*/", "", $author);
     return "($name, $year)";
 }
-function extract_title($url)
-{
+function fetch($url) {
     try {
         $str = fetchUrlContent($url);
 
@@ -120,11 +125,13 @@ function extract_title($url)
         echo 21;
         exit;
     }
-    //$url = "https://www.brookings.edu/testimonies/ten-years-later-the-status-of-the-u-n-human-rights-council/";
-
+    return $str;
+}
+function extract_title($html, $url)
+{
     if (strlen($str)>0) {
-        $str = trim(preg_replace('/\s+/', ' ', $str)); // supports line breaks inside <title>
-        preg_match("/\<title\>(.*?)\<\/title\>/i", $str, $title); // ignore case
+        $str = trim(preg_replace('/\s+/', ' ', $html)); // supports line breaks inside <title>
+        preg_match("/\<title\>(.*?)\<\/title\>/i", $html, $title); // ignore case
         //print_r($title);exit;
         // タイトルがとれない場合はファイル名
         if ($title[1] == "") {
@@ -146,7 +153,14 @@ function extract_title($url)
         return $title[1];
     }
 }
-
+function extract_author($html) {
+    preg_match("/ownerChannelName.:\"(.+?)\",/", $str, $author);
+    return $author;
+}
+function extract_youtube_year($html) {
+    preg_match("/publishDate.:\"(.+?)\",/", $str, $publishDate);
+    return $publishDate;
+}
 
 function fetchUrlContent($url)
 {
