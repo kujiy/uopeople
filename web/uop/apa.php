@@ -73,7 +73,7 @@ if ($_GET["url"] != "") {
         // bookmarkletで選択していた部分をmixed(date+author)として処理
         $mixed =  filter_input(INPUT_GET, "sel");
         $year =  extract_year(filter_input(INPUT_GET, "year"), $mixed);
-        $year_youtube =  extract_year(extract_youtube_year($html));
+        $year_youtube =  extract_year(extract_youtube_year($html), $mixed);
 
         // filter_input(INPUT_GET, "email", FILTER_VALIDATE_EMAIL)
         if ($url && $title) {
