@@ -117,7 +117,7 @@ function extract_title($url)
         }
     } catch (Exception $e) {
         // Handle exception
-              echo 21;
+        echo 21;
         exit;
     }
     //$url = "https://www.brookings.edu/testimonies/ten-years-later-the-status-of-the-u-n-human-rights-council/";
@@ -151,8 +151,9 @@ function extract_title($url)
 function fetchUrlContent($url)
 {
     $ch = curl_init();
+    $UA = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/111.0.0.0 Safari/537.36';
     curl_setopt($ch, CURLOPT_URL, $url);
-    curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (Windows NT 6.3; Trident/7.0; rv:11.0) like Gecko');
+    curl_setopt($ch, CURLOPT_USERAGENT, $UA);
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
     curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 5);
     curl_setopt($ch, CURLOPT_TIMEOUT, 5);
