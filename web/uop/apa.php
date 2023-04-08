@@ -67,33 +67,45 @@ if ($_GET["url"] != "") {
         // exit;
 
         // 年と作者
+        $outAuthor = "";
         $author =  filter_input(INPUT_GET, "author");
         $rawauthor =  filter_input(INPUT_GET, "rawauthor");
-        $youtubeAuthor = extract_author($html);
-        // bookmarkletで選択していた部分をmixed(date+author)として処理
+        $meta_author = extract_author($html);
+        // bookmarkletで選択していた部分をmixed(date+author)として処理'meta.+?name="author".+?content="(.+?)"xed'ate+authmeta_or)として処理
         $mixed =  filter_input(INPUT_GET, "sel");
         $year =  extract_year(filter_input(INPUT_GET, "year"), $mixed);
-        $year_youtube =  extract_year(extract_youtube_year($html), $mixed);
+        $meta_year =  extract_year(extract_youtube_year($html), $mixed);
+        if ($meta_year)
+            $year = $meta_year;
+
+        error_log("---------");
+        error_log($url);
+        error_log($title);
+        error_log($meta_author);
+        error_log($meta_year);
 
         // filter_input(INPUT_GET, "email", FILTER_VALIDATE_EMAIL)
         if ($url && $title) {
             $out="\n" ;
-            if ($rawauthor || $author || $mixed) {
+            if ($rawauthor || $meta_author || $author || $mixed) {
 
                 // mixedからコピペでauthorを手動取り出しするシーンを考慮してmixed以外を優先してauthor取得
                 if ($rawauthor) {
+                    error_log("$rawauthor");
                     $outAuthor = $rawauthor;
-                } elseif ($youtubeAuthor) {
-                    $outAuthor = $youtubeAuthor;
+                } elseif ($meta_author) {
+                    error_log("$meta_author");
+                    $outAuthor = ucwords($meta_author);
                 } elseif ($author) {
+                    error_log("author");
                     $outAuthor = extract_initial($author);
                 } elseif ($mixed) {
+                    error_log("mixed");
                     $outAuthor = extract_authorfrom_mixed($mixed);
                 }
+
                 $out .="$outAuthor. ";
-                if ($year_youtube) {
-                    $out .="($year_youtube). ";
-                } elseif ($year) {
+                if ($year) {
                     $out .="($year). ";
                 } else {
                     $out .="(n.d.). ";
@@ -101,6 +113,7 @@ if ($_GET["url"] != "") {
                 // https://stackoverflow.com/questions/1070244/how-to-determine-the-first-and-last-iteration-in-a-foreach-loop
             }
             $out .= "$title. Retrieved on $today, from $url";
+            error_log($out);
             $outshort .= create_short_citation($outAuthor, $year);
         }
         $out = preg_replace("/¥t+/", "", $out);
@@ -129,9 +142,9 @@ function fetch($url) {
 }
 function extract_title($html, $url)
 {
-    if (strlen($str)>0) {
-        $str = trim(preg_replace('/\s+/', ' ', $html)); // supports line breaks inside <title>
-        preg_match("/\<title\>(.*?)\<\/title\>/i", $html, $title); // ignore case
+    if (strlen($html)>0) {
+        $html = trim(preg_replace('/\s+/', ' ', $html)); // supports line breaks inside <title>
+        preg_match("/\<title.*?>(.*?)\<\/title\>/i", $html, $title); // ignore case
         //print_r($title);exit;
         // タイトルがとれない場合はファイル名
         if ($title[1] == "") {
@@ -154,12 +167,31 @@ function extract_title($html, $url)
     }
 }
 function extract_author($html) {
-    preg_match("/ownerChannelName.:\"(.+?)\",/", $str, $author);
-    return $author;
+    preg_match("/ownerChannelName.:\"(.+?)\",/", $html, $author);
+    preg_match('/<meta.+?name="author".+?content="(.+?)"/', $html, $meta_author);
+    error_log(print_r($author, 1));
+    try {
+        if ($author) {
+            return $author[1];
+        } else {
+            return $meta_author[1];
+        }
+    } catch(Exception $e){
+        //
+    }
 }
 function extract_youtube_year($html) {
-    preg_match("/publishDate.:\"(.+?)\",/", $str, $publishDate);
-    return $publishDate;
+    preg_match("/publishDate.:\"(.+?)\",/", $html, $publishDate);
+    preg_match('/<meta.+?property="article:published_time".+?content="(\d{4}).+?"/', $html, $meta_publishDate);
+    error_log(print_r($publishDate, 1));
+    try {
+        if ($publishDate) {
+            return $publishDate[1];
+        }
+        return $meta_publishDate[1];
+    } catch(Exception $e){
+        //
+    }
 }
 
 function fetchUrlContent($url)
@@ -270,7 +302,7 @@ function extract_year($str, $mixed)
         <!-- URL入力 -->
         <div class="input-group">
           <span class="input-group-addon">http://</span>
-          <textarea class="form-control" id="url" name="url"  placeholder="http://example.com&#10;http://w3c.org"><?php echo $url; ?></textarea>
+          <textarea class="form-control" id="url" name="url"  placeholder="http://example.com"><?php echo $url; ?></textarea>
         </div><br />
 
 
