@@ -62,6 +62,9 @@ if ($_GET["url"] != "") {
         }
         $today = date("M d, Y");
         $html = fetch($url);
+        error_log($url);
+        error_log("html -----------");
+        error_log($html);
         $title = extract_title($html, $url) ;
         // print_r($title);
         // exit;
@@ -133,12 +136,12 @@ function fetch($url) {
             //echo 1; echo " $url"; exit;
             return false;
         }
+        return $str;
     } catch (Exception $e) {
         // Handle exception
         echo 21;
         exit;
     }
-    return $str;
 }
 function extract_title($html, $url)
 {
@@ -185,10 +188,12 @@ function extract_youtube_year($html) {
     preg_match('/<meta.+?property="article:published_time".+?content="(\d{4}).+?"/', $html, $meta_publishDate);
     error_log(print_r($publishDate, 1));
     try {
-        if ($publishDate) {
+        if (count($publishDate) > 0) {
             return $publishDate[1];
         }
-        return $meta_publishDate[1];
+        if (count($meta_publishDate) > 0) {
+            return $meta_publishDate[1];
+        }
     } catch(Exception $e){
         //
     }
@@ -202,27 +207,28 @@ function fetchUrlContent($url)
     curl_setopt($ch, CURLOPT_USERAGENT, $UA);
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
     curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 5);
-    curl_setopt($ch, CURLOPT_TIMEOUT, 5);
+    curl_setopt($ch, CURLOPT_TIMEOUT, 3);
     curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
     curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
     curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
     $data = curl_exec($ch);
-    // $httpcode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-
-    if (curl_exec($ch) === false) {
-        // echo 'Curl error: ' . curl_error($ch);
-        // print_r($data);
+    $httpcode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+    error_log("httpcode");
+    error_log($httpcode);
+    if (curl_exec($ch) === false || intval($httpcode) === 0) {
+         error_log('Curl error: ' . curl_error($ch));
+         print_r($data);
         curl_close($ch);
-        return false;
+        return curl_error($ch);
     } else {
-        // echo 'Operation completed without any errors';
+         error_log('Operation completed without any errors');
         curl_close($ch);
         return $data;
     }
 
-    // $httpcode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-    // curl_close($ch);
-    // return ($httpcode>=200 && $httpcode<300) ? $data : false;
+     $httpcode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+     curl_close($ch);
+     return ($httpcode>=200 && $httpcode<300) ? $data : false;
 }
 
 function extract_initial($str)
@@ -260,7 +266,7 @@ function extract_authorfrom_mixed($str)
     // 指定の文字列を消す
     // 月、数字、記号
     // TODO: Mayさんとかの名前が消えてしまう
-    $ptn = "/(last |updated|written| on|January |February |March |April |May |June |July |August |September |October |November |December |Jan |Feb |Mar |Apr |May |Jun |Jul |Aug |Sep |Oct |Nov |Dec |by |\d+|[\$-\/:-?{-~!\"\^_`\[\]])/i";
+    $ptn = "/(Opinion by|Columnist|last |updated|written| on|January |February |March |April |May |June |July |August |September |October |November |December |Jan |Feb |Mar |Apr |May |Jun |Jul |Aug |Sep |Oct |Nov |Dec |by |\d+|[\$-\/:-?{-~!\"\^_`\[\]])/i";
     $str = preg_replace($ptn, "", $str);
     $str = trim($str);
 
@@ -366,7 +372,7 @@ function extract_year($str, $mixed)
 
                         <div class="alert alert-warning" role="alert">Note: This tool doesn't take Author's name.</div>
 
-1                    </div>
+                    </div>
             </form>
 
 
@@ -386,9 +392,7 @@ function extract_year($str, $mixed)
 
 
 
-
-
-          <textarea class="form-control" id="convert" name="convert"  value="" placeholder="text"></textarea>
+      <textarea class="form-control" id="convert" name="convert"  value="" placeholder="text"></textarea>
 
 
 
