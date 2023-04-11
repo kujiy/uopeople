@@ -78,7 +78,7 @@ if ($_GET["url"] != "") {
         $mixed =  filter_input(INPUT_GET, "sel");
         $year =  extract_year(filter_input(INPUT_GET, "year"), $mixed);
         $meta_year =  extract_year(extract_youtube_year($html), $mixed);
-        if ($meta_year)
+        if ($meta_year != 'n.d.')
             $year = $meta_year;
 
         error_log("---------");
